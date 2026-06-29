@@ -69,6 +69,24 @@ class CardController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    async update(req, res) {
+        try {
+            const cardId = req.params.id;
+            const updateData = req.body;
+
+            const existingCard = await Cards.findById(cardId);
+            if (!existingCard) {
+                return res.status(404).json({ error: 'Card não encontrado.' });
+            } else {
+                const updatedCard = await Cards.findByIdAndUpdate(cardId, updateData, { new: true });
+
+                res.status(200).json(updatedCard);
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 
 export default new CardController();

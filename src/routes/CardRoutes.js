@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', CardController.create);
 router.delete('/:id', CardController.delete);
+router.put('/:id', CardController.update);
 router.get('/', CardController.getAll);
 router.get('/:id', CardController.getById);
 

@@ -89,6 +89,23 @@ class DeckController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    async update(req, res) {
+        try {
+            const deckId = req.params.id;
+            const updateData = req.body;
+
+            const updatedDeck = await Deck.findByIdAndUpdate(deckId, updateData, { new: true });
+
+            if (!updatedDeck) {
+                return res.status(404).json({ error: 'Deck não encontrado.' });
+            } else {
+                res.status(200).json(updatedDeck);
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 
 export default new DeckController();

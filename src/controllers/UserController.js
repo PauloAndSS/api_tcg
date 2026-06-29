@@ -56,6 +56,53 @@ class UserController {
             return res.status(statusCode).json({ error: err.message });
         }
     }
+
+    async update(req, res) {
+        try {
+            const userId = req.body.id;
+            const updateData = req.body;
+
+            const user = await Users.findById(userId);
+            if (!user) {
+                return res.status(404).json({ error: 'Usuário não encontrado.' });
+            }
+            if (updateData.senhaAtual) {
+                const isMatch = await UserService.loginUser(user.email, updateData.senhaAtual);
+                if (!isMatch) {
+                    return res.status(401).json({ error: 'Senha atual incorreta.' });
+                } else {
+                    if (updateData.senha && updateData.senha.length < 6) {
+                        return res.status(400).json({ error: 'A senha deve ter pelo menos 6 caracteres.' });
+                    }else if (updateData.senha) {
+                        const saltRounds = 10;
+                        const hashedPassword = await bcrypt.hash(updateData.senha, saltRounds);
+                        updateData.senha = hashedPassword;
+                    }
+
+                    if (updateData.nome) {
+                        const existingUserByName = await Users.findOne({ nome: updateData.nome });
+                        if (existingUserByName && existingUserByName._id.toString() !== userId) {
+                            return res.status(400).json({ error: 'Nome de usuário já em uso!' });
+                        }
+                    }
+
+                    if (updateData.email) {
+                        const existingUserByEmail = await Users.findOne({ email: updateData.email });
+                        if (existingUserByEmail && existingUserByEmail._id.toString() !== userId) {
+                            return res.status(400).json({ error: 'Email já em uso!' });
+                        }
+                    }
+                    await user.save();
+
+                    res.status(200).json({ message: 'Usuário atualizado com sucesso.', user });
+                }
+            } else {
+                return res.status(400).json({ error: 'Senha atual é obrigatória para atualização.' });
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 
 export default new UserController();
