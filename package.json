@@ -1,0 +1,33 @@
+{
+  "name": "api_tcg",
+  "version": "1.0.0",
+  "description": "Uma api de tcg, do jogo do TCG IFES.",
+  "keywords": [
+    "tcg",
+    "cards"
+  ],
+  "homepage": "https://github.com/PauloAndSS/API-TCG#readme",
+  "bugs": {
+    "url": "https://github.com/PauloAndSS/API-TCG/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauloAndSS/API-TCG.git"
+  },
+  "license": "ISC",
+  "author": "PauloAndSS",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
