@@ -1,27 +1,22 @@
-const express = require('express');
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/test', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+import express from 'express';
+import connectDB from './config/db.js';
+import userRoutes from './routes/UserRoutes.js';
+import cardRoutes from './routes/CardRoutes.js';
+import deckRoutes from './routes/DeckRoutes.js';
 
 const app = express();
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.send('Bem vindo a API de TCG!');
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.use('/users', userRoutes);
+app.use('/cards', cardRoutes);
+app.use('/decks', deckRoutes);
+
+connectDB().then(() => {
+    app.listen(3000, () => {
+        console.log('Servidor rodando na porta 3000');
+    });
 });
-
-async function main() {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/test');
-
-    console.log(`✅ Conectado ao banco: ${mongoose.connection.name}`);
-  } catch (err) {
-    console.error('❌ Erro ao conectar ao MongoDB:', err);
-  }
-}
