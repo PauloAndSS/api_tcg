@@ -1,12 +1,139 @@
-🃏 TCG API (Trading Card Game)Esta é uma API RESTful robusta desenvolvida para gerenciar um jogo de cartas colecionáveis (TCG), incluindo sistemas de usuários, cartas, decks e um ranking competitivo baseado em agregação de dados.🚀 Tecnologias UtilizadasNode.js & Express: Framework para construção da API.MongoDB & Mongoose: Banco de dados NoSQL e modelagem de dados.Bcrypt: Segurança e criptografia de senhas.Aggregation Framework: Processamento de dados complexos (rankings, relatórios).ES Modules: Utilização de import/export.📂 Estrutura do ProjetoA arquitetura foi pensada para ser escalável e organizada:Plaintextsrc/
-├── config/      # Conexões de banco de dados e variáveis de ambiente
-├── controllers/ # Gerenciamento de rotas e fluxo HTTP
-├── models/      # Esquemas de dados (Schema Mongoose)
-├── routes/      # Definição dos endpoints
-├── services/    # Regras de negócio e integração com banco
-└── index.js     # Ponto de entrada da aplicação
-⚙️ Como rodar o projetoClone o repositório:Bashgit clone [url-do-seu-repositorio]
+# TCG API (Trading Card Game)
+
+API RESTful desenvolvida para gerenciamento de um jogo de cartas colecionáveis (Trading Card Game - TCG). O projeto oferece funcionalidades para gerenciamento de usuários, cartas, decks e um sistema de ranking competitivo baseado em agregação de dados utilizando MongoDB.
+
+---
+
+## Tecnologias Utilizadas
+
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Mongoose**
+* **Bcrypt**
+* **MongoDB Aggregation Framework**
+* **ES Modules (import/export)**
+
+---
+
+## Estrutura do Projeto
+
+```text
+src/
+├── config/          # Configuração do banco de dados e variáveis de ambiente
+├── controllers/     # Controladores responsáveis pelas requisições HTTP
+├── models/          # Modelos e Schemas do Mongoose
+├── routes/          # Definição das rotas da API
+├── services/        # Regras de negócio e acesso ao banco de dados
+└── index.js         # Ponto de entrada da aplicação
+```
+
+---
+
+## Instalação
+
+### 1. Clone o repositório
+
+```bash
+git clone <url-do-repositorio>
 cd api_tcg
-Instale as dependências:Bashnpm install
-Configuração:Certifique-se de ter o MongoDB rodando localmente na porta 27017 ou altere a URI no arquivo de configuração (src/config/db.js).Execute o servidor:Bashnode index.js
-📌 Principais EndpointsMétodoEndpointDescriçãoPOST/usersCadastro de novos jogadoresPOST/users/loginLogin e autenticaçãoPOST/cardsAdicionar uma nova carta ao jogoGET/decksListagem de decks (com paginação)GET/users/rankingRanking global dos jogadores💡 Funcionalidades DestaqueSegurança: Senhas criptografadas com bcrypt e proteção contra Mass Assignment.Performance: Paginação nativa em todos os métodos GET para evitar sobrecarga.Relatórios Complexos: Uso de pipelines de agregação para cálculos de ranking baseados no custo das cartas.
+```
+
+### 2. Instale as dependências
+
+```bash
+npm install
+```
+
+### 3. Configure o banco de dados
+
+Certifique-se de que o MongoDB esteja em execução na porta padrão (`27017`) ou altere a URI de conexão no arquivo:
+
+```text
+src/config/db.js
+```
+
+### 4. Inicie o servidor
+
+```bash
+node index.js
+```
+
+---
+
+## Endpoints
+
+| Método | Endpoint         | Descrição                              |
+| ------ | ---------------- | -------------------------------------- |
+| POST   | `/users`         | Cadastra um novo jogador               |
+| POST   | `/users/login`   | Realiza autenticação do usuário        |
+| POST   | `/cards`         | Adiciona uma nova carta ao jogo        |
+| GET    | `/decks`         | Lista os decks com paginação           |
+| GET    | `/users/ranking` | Retorna o ranking global dos jogadores |
+
+---
+
+## Funcionalidades
+
+### Gerenciamento de Usuários
+
+* Cadastro de jogadores
+* Login de usuários
+* Senhas criptografadas com **bcrypt**
+
+### Gerenciamento de Cartas
+
+* Cadastro de cartas
+* Associação de cartas aos decks
+
+### Gerenciamento de Decks
+
+* Criação e listagem de decks
+* Paginação nas consultas
+
+### Ranking
+
+* Ranking global de jogadores
+* Cálculo utilizando o **Aggregation Framework** do MongoDB
+
+---
+
+## Recursos
+
+* Arquitetura em camadas (Controllers, Services e Models)
+* API RESTful
+* Criptografia de senhas
+* Proteção contra Mass Assignment
+* Paginação em todas as rotas de listagem
+* Consultas otimizadas com Aggregation Framework
+* Código organizado e escalável
+
+---
+
+## Requisitos
+
+* Node.js 18 ou superior
+* MongoDB
+
+---
+
+## Executando o Projeto
+
+```bash
+npm install
+node index.js
+```
+
+O servidor estará disponível em:
+
+```text
+http://localhost:3000
+```
+
+> Altere a porta conforme a configuração definida no projeto.
+
+---
+
+## Autor : PauloAndSS
+
+Desenvolvido como projeto de API REST para gerenciamento de um Trading Card Game (TCG).
