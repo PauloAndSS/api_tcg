@@ -3,6 +3,7 @@ import UserController from '../controllers/UserController.js';
 
 const router = express.Router();
 
+router.get('/ranking', UserController.getRanking);
 router.get('/', UserController.getAll);
 router.put('/', UserController.update);
 router.post('/register', UserController.create);

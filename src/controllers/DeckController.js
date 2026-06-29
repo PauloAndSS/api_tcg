@@ -106,6 +106,15 @@ class DeckController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    async getReport(req, res) {
+        try {
+            const report = await DeckService.getDeckReport();
+            res.status(200).json(report);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 
 export default new DeckController();

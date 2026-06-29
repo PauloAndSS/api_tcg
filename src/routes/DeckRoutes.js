@@ -3,6 +3,7 @@ import DeckController from '../controllers/DeckController.js';
 
 const router = express.Router();
 
+router.get('/report', DeckController.getReport);
 router.post('/', DeckController.create);
 router.delete('/:id', DeckController.delete);
 router.put('/:id', DeckController.update);

@@ -103,6 +103,15 @@ class UserController {
             res.status(500).json({ error: err.message });
         }
     }
+
+    async getRanking(req, res) {
+        try {
+            const ranking = await UserService.getUserRanking();
+            res.status(200).json(ranking);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
 }
 
 export default new UserController();

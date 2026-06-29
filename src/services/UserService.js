@@ -1,5 +1,6 @@
 import Users from '../models/UsersModel.js';
 import bcrypt from 'bcrypt';
+import Decks from '../models/DecksModel.js';
 
 class UserService {
     async createUser(userData) {
@@ -34,16 +35,71 @@ class UserService {
         if (!user) {
             throw new Error('Usuário ou senha inválidos.');
         }
-        
+
         const isMatch = await bcrypt.compare(senha, user.senha);
 
         if (!isMatch) {
             throw new Error('Usuário ou senha inválidos.');
-        }else{
+        } else {
             const userResponse = user.toObject();
             delete userResponse.senha;
             return userResponse;
         }
+    }
+
+    async getUserRanking() {
+        return await Decks.aggregate([
+            {
+                $lookup: {
+                    from: 'cards',
+                    localField: 'cartas',
+                    foreignField: '_id',
+                    as: 'detalhesCartas'
+                }
+            },
+            {
+                $addFields: {
+                    custoDeck: { $sum: "$detalhesCartas.custo" }
+                }
+            },
+            {
+                $group: {
+                    _id: "$player",
+                    totalDecks: { $sum: 1 },
+                    poderTotal: { $sum: "$custoDeck" }
+                }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'infoJogador'
+                }
+            },
+            { $unwind: "$infoJogador" },
+
+            { $sort: { poderTotal: -1 } },
+
+            {
+                $setWindowFields: {
+                    sortBy: { poderTotal: -1 },
+                    output: {
+                        posicao: { $rank: {} }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    posicao: 1,
+                    nome: "$infoJogador.nome",
+                    ranking: "$infoJogador.ranking",
+                    totalDecks: 1,
+                    poderTotal: 1
+                }
+            }
+        ]);
     }
 }
 
